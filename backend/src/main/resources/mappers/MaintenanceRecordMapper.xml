@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.drvlg.mapper.MaintenanceRecordMapper">
+
+  <insert id="insertMaintenanceRecord">
+    INSERT INTO MAINTENANCE_RECORD (
+      vehicle_id, maintenance_date, odometer, item, total_cost, memo, created_at, updated_at
+    ) VALUES (
+               #{vehicleId}, #{maintenanceDate}, #{odometer}, #{item}, #{totalCost}, #{memo}, NOW(), NOW()
+             )
+  </insert>
+
+  <update id="updateMaintenanceRecord">
+    UPDATE MAINTENANCE_RECORD
+    SET
+      maintenance_date = #{maintenanceDate},
+      odometer = #{odometer},
+      item = #{item},
+      total_cost = #{totalCost},
+      memo = #{memo},
+      updated_at = NOW()
+    WHERE
+      record_id = #{recordId}
+  </update>
+
+  <delete id="deleteMaintenanceRecord">
+    DELETE FROM MAINTENANCE_RECORD
+    WHERE record_id = #{recordId}
+  </delete>
+
+  <select id="selectMaintenanceRecordById" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
+    SELECT
+      record_id,
+      vehicle_id,
+      maintenance_date,
+      odometer,
+      item,
+      total_cost,
+      memo,
+      created_at,
+      updated_at
+    FROM
+      MAINTENANCE_RECORD
+    WHERE
+      record_id = #{recordId}
+  </select>
+
+  <select id="selectMaintenanceRecordsByVehicleId" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
+    SELECT
+      record_id,
+      vehicle_id,
+      maintenance_date,
+      odometer,
+      item,
+      total_cost,
+      memo,
+      created_at,
+      updated_at
+    FROM
+      MAINTENANCE_RECORD
+    WHERE
+      vehicle_id = #{vehicleId}
+    ORDER BY
+      maintenance_date DESC
+  </select>
+</mapper>
+

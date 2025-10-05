@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.drvlg.mapper.FuelRecordMapper">
+
+  <insert id="insertFuelRecord">
+    INSERT INTO FUEL_RECORD (
+      vehicle_id, fuel_date, odometer, price_per_liter, liters, total_price, memo, created_at, updated_at
+    ) VALUES (
+               #{vehicleId}, #{fuelDate}, #{odometer}, #{pricePerLiter}, #{liters}, #{totalPrice}, #{memo}, NOW(), NOW()
+             )
+  </insert>
+
+  <select id="selectFuelRecordsByVehicleId" resultType="com.example.drvlg.vo.FuelRecordVO">
+    SELECT
+      record_id,
+      vehicle_id,
+      fuel_date,
+      odometer,
+      price_per_liter,
+      liters,
+      total_price,
+      memo,
+      created_at,
+      updated_at
+    FROM
+      FUEL_RECORD
+    WHERE
+      vehicle_id = #{vehicleId}
+    ORDER BY
+      fuel_date DESC
+  </select>
+</mapper>

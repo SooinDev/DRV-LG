@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.drvlg.mapper.VehicleMapper">
+
+  <insert id="insertVehicle">
+    INSERT INTO VEHICLE (
+      user_id, license_plate, make, model, year, nickname, initial_odometer, created_at, updated_at
+    ) VALUES (
+               #{userId}, #{licensePlate}, #{make}, #{model}, #{year}, #{nickname}, #{initialOdometer}, NOW(), NOW()
+             )
+  </insert>
+
+  <select id="selectVehiclesByUserId" resultType="com.example.drvlg.vo.VehicleVO">
+    SELECT
+      vehicle_id,
+      user_id,
+      license_plate,
+      make,
+      model,
+      year,
+      nickname,
+      initial_odometer,
+      created_at,
+      updated_at
+    FROM
+      VEHICLE
+    WHERE
+      user_id = #{userId}
+  </select>
+</mapper>
