@@ -4,14 +4,24 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+  <!-- Root Spring Container (DB, Service, DAO) -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <!-- IDE 에러로 인해 주석 처리 -->
+  <!--
+  <listener>
+    <listener-class>com.mysql.cj.jdbc.AbandonedConnectionCleanupThread$ConnectionCleanupListener</listener-class>
+  </listener>
+  -->
+
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/spring/root-context.xml</param-value>
   </context-param>
 
+  <!-- Spring MVC DispatcherServlet (Controller, ViewResolver) -->
   <servlet>
     <servlet-name>appServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -26,6 +36,7 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+  <!-- UTF-8 Encoding Filter -->
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -39,3 +50,4 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 </web-app>
+

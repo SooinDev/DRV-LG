@@ -43,5 +43,4 @@ public class FuelRecordServiceImpl implements FuelRecordService {
   public List<FuelRecordVO> selectFuelRecordsByVehicleId(Long vehicleId) {
     return fuelRecordMapper.selectFuelRecordsByVehicleId(vehicleId);
   }
-  
 }

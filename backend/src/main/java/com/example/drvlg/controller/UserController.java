@@ -36,7 +36,7 @@ public class UserController {
     UserVO loginUser = userService.login(userVO);
 
     if (loginUser != null) {
-      loginUser.setPswd(null);
+      loginUser.setPassword(null);
       return ResponseEntity.ok(loginUser);
     } else {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");

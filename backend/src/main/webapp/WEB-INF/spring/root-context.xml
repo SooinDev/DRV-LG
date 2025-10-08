@@ -29,4 +29,5 @@
   </bean>
 
   <context:component-scan base-package="com.example.drvlg.service"/>
+  <context:component-scan base-package="com.example.drvlg.config"/>
 </beans>
