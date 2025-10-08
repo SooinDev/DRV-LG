@@ -2,11 +2,16 @@ package com.example.drvlg.service;
 
 import com.example.drvlg.vo.VehicleVO;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 public interface VehicleService {
 
-  void registerVehicle(VehicleVO vehicleVO);
+  void registerVehicle(VehicleVO vehicle);
 
   List<VehicleVO> getVehiclesByUserId(Long userId);
+
+  void deleteVehicle(Long vehicleId, Long userId) throws AccessDeniedException;
+
+  void updateVehicle(VehicleVO vehicle, Long currentUserId) throws AccessDeniedException;
 }

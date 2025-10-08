@@ -113,6 +113,30 @@ class ApiService {
     }
   }
 
+  Future<String> deleteVehicle(int vehicleId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/vehicles/$vehicleId'),
+        headers: await _getHeaders(),
+      );
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else if (response.statusCode == 401) {
+        throw Exception('인증이 필요합니다. 다시 로그인해주세요.');
+      } else if (response.statusCode == 403) {
+        throw Exception('삭제할 권한이 없습니다.');
+      } else {
+        throw Exception('차량 삭제에 실패했습니다.');
+      }
+    } catch (e) {
+      if (e is Exception) {
+        rethrow;
+      }
+      throw Exception('서버와 연결할 수 없습니다.');
+    }
+  }
+
   // Alert APIs
   Future<List<Alert>> getAlerts(int vehicleId) async {
     final response = await http.get(

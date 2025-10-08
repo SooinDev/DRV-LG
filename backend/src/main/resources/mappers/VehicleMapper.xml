@@ -6,22 +6,22 @@
     INSERT INTO VEHICLE (
       user_id, license_plate, make, model, year, nickname, initial_odometer, created_at, updated_at
     ) VALUES (
-               #{userId}, #{number}, #{maker}, #{model}, #{year}, #{nickName}, #{initOdo}, NOW(), NOW()
+               #{userId}, #{licensePlate}, #{make}, #{model}, #{year}, #{nickname}, #{initialOdometer}, NOW(), NOW()
              )
   </insert>
 
   <select id="selectVehiclesByUserId" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      vehicle_id as vehicleId,
-      user_id as userId,
-      license_plate as number,
-      make as maker,
+      vehicle_id,
+      user_id,
+      license_plate,
+      make,
       model,
       year,
-      nickname as nickName,
-      initial_odometer as initOdo,
-      created_at as registerDate,
-      updated_at as updateDate
+      nickname,
+      initial_odometer,
+      created_at,
+      updated_at
     FROM
       VEHICLE
     WHERE
@@ -36,4 +36,42 @@
            SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = #{vehicleId}
          ) AS combined_odometers
   </select>
+
+  <select id="selectVehicleById" resultType="com.example.drvlg.vo.VehicleVO">
+    SELECT
+      vehicle_id,
+      user_id,
+      license_plate,
+      make,
+      model,
+      year,
+      nickname,
+      initial_odometer,
+      created_at,
+      updated_at
+    FROM
+      VEHICLE
+    WHERE
+      vehicle_id = #{vehicleId}
+  </select>
+
+  <delete id="deleteVehicle">
+    DELETE FROM VEHICLE
+    WHERE vehicle_id = #{vehicleId}
+  </delete>
+
+  <update id="updateVehicle">
+    UPDATE VEHICLE
+    SET
+      license_plate = #{licensePlate},
+      make = #{make},
+      model = #{model},
+      year = #{year},
+      nickname = #{nickname},
+      initial_odometer = #{initialOodometer},
+      updated_at = NOW()
+    WHERE
+      vehicle_id = #{vehicleId}
+  </update>
+
 </mapper>

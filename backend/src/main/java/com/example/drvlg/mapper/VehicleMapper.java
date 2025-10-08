@@ -11,5 +11,11 @@ public interface VehicleMapper {
 
   List<VehicleVO> selectVehiclesByUserId(Long userId);
 
+  VehicleVO selectVehicleById(Long vehicleId);
+
   Integer selectLatestOdometer(Long vehicleId);
+
+  void deleteVehicle(Long vehicleId);
+
+  void updateVehicle(VehicleVO vehicleVO);
 }
