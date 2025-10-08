@@ -34,10 +34,10 @@ class Vehicle {
       nickName: json['nickName'] as String?,
       initOdo: json['initOdo'] as int,
       registerDate: json['registerDate'] != null
-          ? DateTime.parse(json['registerDate'] as String)
+          ? DateTime.fromMillisecondsSinceEpoch(json['registerDate'] as int)
           : null,
       updateDate: json['updateDate'] != null
-          ? DateTime.parse(json['updateDate'] as String)
+          ? DateTime.fromMillisecondsSinceEpoch(json['updateDate'] as int)
           : null,
     );
   }

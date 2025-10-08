@@ -1,6 +1,5 @@
 package com.example.drvlg.service.impl;
 
-import com.example.drvlg.config.jwt.JwtTokenProvider;
 import com.example.drvlg.mapper.UserMapper;
 import com.example.drvlg.service.UserService;
 import com.example.drvlg.vo.UserVO;
@@ -13,13 +12,11 @@ public class UserServiceImpl implements UserService {
 
   private final UserMapper userMapper;
   private final PasswordEncoder passwordEncoder;
-  private final JwtTokenProvider jwtTokenProvider;
 
   @Autowired
-  public UserServiceImpl(UserMapper userMapper, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+  public UserServiceImpl(UserMapper userMapper, PasswordEncoder passwordEncoder) {
     this.userMapper = userMapper;
     this.passwordEncoder = passwordEncoder;
-    this.jwtTokenProvider = jwtTokenProvider;
   }
 
   @Override
@@ -30,11 +27,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public String login(UserVO user) {
+  public UserVO login(UserVO user) {
     UserVO storedUser = userMapper.selectUserByEmail(user.getEmail());
 
     if (storedUser != null && passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
-      return jwtTokenProvider.createToken(storedUser.getEmail());
+      return storedUser;
     }
 
     return null;

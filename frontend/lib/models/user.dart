@@ -22,10 +22,14 @@ class User {
       password: json['password'] as String?,
       nickName: json['nickName'] as String,
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
+          ? (json['createdAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['createdAt'] as int)
+              : DateTime.parse(json['createdAt'] as String))
           : null,
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
+          ? (json['updatedAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['updatedAt'] as int)
+              : DateTime.parse(json['updatedAt'] as String))
           : null,
     );
   }

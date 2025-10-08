@@ -1,5 +1,6 @@
 package com.example.drvlg.controller;
 
+import com.example.drvlg.config.jwt.JwtTokenProvider;
 import com.example.drvlg.service.UserService;
 import com.example.drvlg.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import java.util.Map;
 public class UserController {
 
   private final UserService userService;
+  private final JwtTokenProvider jwtTokenProvider;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
     this.userService = userService;
+    this.jwtTokenProvider = jwtTokenProvider;
   }
 
   @PostMapping("/register")
@@ -36,9 +39,10 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody UserVO userVO) {
-    String token = userService.login(userVO);
+    UserVO loginUser = userService.login(userVO);
 
-    if (token != null) {
+    if (loginUser != null) {
+      String token = jwtTokenProvider.createToken(loginUser.getEmail());
       Map<String, String> response = Collections.singletonMap("token", token);
       return ResponseEntity.ok(response);
     } else {

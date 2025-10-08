@@ -1,8 +1,9 @@
 package com.example.drvlg.config.jwt;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -11,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtTokenProvider jwtTokenProvider;
 
+  @Autowired
   public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
     this.jwtTokenProvider = jwtTokenProvider;
   }
@@ -26,8 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String token = resolveToken(request);
 
     if (token != null && jwtTokenProvider.validateToken(token)) {
-      String userEmail = jwtTokenProvider.getUserEmail(token);
-      Authentication authentication = new UsernamePasswordAuthenticationToken(userEmail, null, null);
+      Authentication authentication = jwtTokenProvider.getAuthentication(token);
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

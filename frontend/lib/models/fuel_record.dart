@@ -27,17 +27,23 @@ class FuelRecord {
     return FuelRecord(
       recordId: json['recordId'] as int?,
       vehicleId: json['vehicleId'] as int?,
-      fuelDate: DateTime.parse(json['fuelDate'] as String),
+      fuelDate: json['fuelDate'] is int
+          ? DateTime.fromMillisecondsSinceEpoch(json['fuelDate'] as int)
+          : DateTime.parse(json['fuelDate'] as String),
       odoMeter: json['odoMeter'] as int,
       pricePerLiter: json['pricePerLiter'] as int,
       liters: (json['liters'] as num).toDouble(),
       totalPrice: json['totalPrice'] as int,
       memo: json['memo'] as String?,
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
+          ? (json['createdAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['createdAt'] as int)
+              : DateTime.parse(json['createdAt'] as String))
           : null,
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
+          ? (json['updatedAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['updatedAt'] as int)
+              : DateTime.parse(json['updatedAt'] as String))
           : null,
     );
   }

@@ -6,22 +6,22 @@
     INSERT INTO VEHICLE (
       user_id, license_plate, make, model, year, nickname, initial_odometer, created_at, updated_at
     ) VALUES (
-               #{userId}, #{licensePlate}, #{make}, #{model}, #{year}, #{nickname}, #{initialOdometer}, NOW(), NOW()
+               #{userId}, #{number}, #{maker}, #{model}, #{year}, #{nickName}, #{initOdo}, NOW(), NOW()
              )
   </insert>
 
   <select id="selectVehiclesByUserId" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      vehicle_id,
-      user_id,
-      license_plate,
-      make,
+      vehicle_id as vehicleId,
+      user_id as userId,
+      license_plate as number,
+      make as maker,
       model,
       year,
-      nickname,
-      initial_odometer,
-      created_at,
-      updated_at
+      nickname as nickName,
+      initial_odometer as initOdo,
+      created_at as registerDate,
+      updated_at as updateDate
     FROM
       VEHICLE
     WHERE

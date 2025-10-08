@@ -20,7 +20,7 @@
       memo = #{memo},
       updated_at = NOW()
     WHERE
-      record_id = #{recordId}
+      record_id = #{maintenanceRecordId}
   </update>
 
   <delete id="deleteMaintenanceRecord">
@@ -30,15 +30,15 @@
 
   <select id="selectMaintenanceRecordById" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
     SELECT
-      record_id,
-      vehicle_id,
-      maintenance_date,
+      record_id as maintenanceRecordId,
+      vehicle_id as vehicleId,
+      maintenance_date as maintenanceDate,
       odometer,
       item,
-      total_cost,
+      total_cost as totalCost,
       memo,
-      created_at,
-      updated_at
+      created_at as createdAt,
+      updated_at as updatedAt
     FROM
       MAINTENANCE_RECORD
     WHERE
@@ -47,15 +47,15 @@
 
   <select id="selectMaintenanceRecordsByVehicleId" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
     SELECT
-      record_id,
-      vehicle_id,
-      maintenance_date,
+      record_id as maintenanceRecordId,
+      vehicle_id as vehicleId,
+      maintenance_date as maintenanceDate,
       odometer,
       item,
-      total_cost,
+      total_cost as totalCost,
       memo,
-      created_at,
-      updated_at
+      created_at as createdAt,
+      updated_at as updatedAt
     FROM
       MAINTENANCE_RECORD
     WHERE
@@ -66,15 +66,15 @@
 
   <select id="selectLatestRecordByItemName" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
     SELECT
-      record_id,
-      vehicle_id,
-      maintenance_date,
+      record_id as maintenanceRecordId,
+      vehicle_id as vehicleId,
+      maintenance_date as maintenanceDate,
       odometer,
       item,
-      total_cost,
+      total_cost as totalCost,
       memo,
-      created_at,
-      updated_at
+      created_at as createdAt,
+      updated_at as updatedAt
     FROM
       MAINTENANCE_RECORD
     WHERE

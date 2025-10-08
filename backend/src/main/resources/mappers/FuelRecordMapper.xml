@@ -6,22 +6,22 @@
     INSERT INTO FUEL_RECORD (
       vehicle_id, fuel_date, odometer, price_per_liter, liters, total_price, memo, created_at, updated_at
     ) VALUES (
-               #{vehicleId}, #{fuelDate}, #{odometer}, #{pricePerLiter}, #{liters}, #{totalPrice}, #{memo}, NOW(), NOW()
+               #{vehicleId}, #{fuelDate}, #{odoMeter}, #{pricePerLiter}, #{liters}, #{totalPrice}, #{memo}, NOW(), NOW()
              )
   </insert>
 
   <select id="selectFuelRecordsByVehicleId" resultType="com.example.drvlg.vo.FuelRecordVO">
     SELECT
-      record_id,
-      vehicle_id,
-      fuel_date,
-      odometer,
-      price_per_liter,
+      record_id as recordId,
+      vehicle_id as vehicleId,
+      fuel_date as fuelDate,
+      odometer as odoMeter,
+      price_per_liter as pricePerLiter,
       liters,
-      total_price,
+      total_price as totalPrice,
       memo,
-      created_at,
-      updated_at
+      created_at as createdAt,
+      updated_at as updatedAt
     FROM
       FUEL_RECORD
     WHERE

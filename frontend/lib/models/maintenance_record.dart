@@ -25,16 +25,22 @@ class MaintenanceRecord {
     return MaintenanceRecord(
       maintenanceRecordId: json['maintenanceRecordId'] as int?,
       vehicleId: json['vehicleId'] as int?,
-      maintenanceDate: DateTime.parse(json['maintenanceDate'] as String),
+      maintenanceDate: json['maintenanceDate'] is int
+          ? DateTime.fromMillisecondsSinceEpoch(json['maintenanceDate'] as int)
+          : DateTime.parse(json['maintenanceDate'] as String),
       odometer: json['odometer'] as int,
       item: json['item'] as String,
       totalCost: json['totalCost'] as int,
       memo: json['memo'] as String?,
       createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
+          ? (json['createdAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['createdAt'] as int)
+              : DateTime.parse(json['createdAt'] as String))
           : null,
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
+          ? (json['updatedAt'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['updatedAt'] as int)
+              : DateTime.parse(json['updatedAt'] as String))
           : null,
     );
   }

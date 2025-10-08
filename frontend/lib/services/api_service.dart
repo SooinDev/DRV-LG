@@ -65,22 +65,11 @@ class ApiService {
   // Vehicle APIs
   Future<String> registerVehicle(Vehicle vehicle) async {
     try {
-      final headers = await _getHeaders();
-      final body = jsonEncode(vehicle.toJson());
-
-      print('=== 차량 등록 요청 ===');
-      print('URL: $baseUrl/vehicles');
-      print('Headers: $headers');
-      print('Body: $body');
-
       final response = await http.post(
         Uri.parse('$baseUrl/vehicles'),
-        headers: headers,
-        body: body,
+        headers: await _getHeaders(),
+        body: jsonEncode(vehicle.toJson()),
       );
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         return response.body;
@@ -91,10 +80,9 @@ class ApiService {
       } else if (response.statusCode == 403) {
         throw Exception('권한이 없습니다.');
       } else {
-        throw Exception('차량 등록 실패 (상태: ${response.statusCode})');
+        throw Exception('차량 등록에 실패했습니다.');
       }
     } catch (e) {
-      print('Error: $e');
       if (e is Exception) {
         rethrow;
       }
