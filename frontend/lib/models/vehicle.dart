@@ -1,6 +1,6 @@
 class Vehicle {
   final int? vehicleId;
-  final int? usrId;
+  final int? userId;
   final String number;
   final String maker;
   final String model;
@@ -12,7 +12,7 @@ class Vehicle {
 
   Vehicle({
     this.vehicleId,
-    this.usrId,
+    this.userId,
     required this.number,
     required this.maker,
     required this.model,
@@ -26,7 +26,7 @@ class Vehicle {
   factory Vehicle.fromJson(Map<String, dynamic> json) {
     return Vehicle(
       vehicleId: json['vehicleId'] as int?,
-      usrId: json['usrId'] as int?,
+      userId: json['userId'] as int?,
       number: json['number'] as String,
       maker: json['maker'] as String,
       model: json['model'] as String,
@@ -45,7 +45,7 @@ class Vehicle {
   Map<String, dynamic> toJson() {
     return {
       if (vehicleId != null) 'vehicleId': vehicleId,
-      if (usrId != null) 'usrId': usrId,
+      if (userId != null) 'userId': userId,
       'number': number,
       'maker': maker,
       'model': model,

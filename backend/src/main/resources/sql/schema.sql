@@ -58,3 +58,14 @@ CREATE TABLE `MAINTENANCE_RECORD` (
                                       PRIMARY KEY (`record_id`),
                                       FOREIGN KEY (`vehicle_id`) REFERENCES `VEHICLE` (`vehicle_id`) ON DELETE CASCADE
 ) COMMENT '정비 기록';
+
+-- 정비 항목 마스터 테이블
+CREATE TABLE `MAINTENANCE_ITEM` (
+                                    `item_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '정비 항목 고유 ID',
+                                    `item_name` VARCHAR(100) NOT NULL COMMENT '정비 항목 이름',
+                                    `recommended_km` INT COMMENT '추천 교체 주기 (km)',
+                                    `recommended_months` INT COMMENT '추천 교체 주기 (개월)',
+                                    `description` VARCHAR(255) COMMENT '항목 설명',
+                                    PRIMARY KEY (`item_id`),
+                                    UNIQUE KEY `UK_item_name` (`item_name`)
+) COMMENT '정비 항목 마스터 정보';

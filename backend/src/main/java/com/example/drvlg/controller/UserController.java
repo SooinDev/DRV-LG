@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -33,11 +36,11 @@ public class UserController {
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody UserVO userVO) {
-    UserVO loginUser = userService.login(userVO);
+    String token = userService.login(userVO);
 
-    if (loginUser != null) {
-      loginUser.setPassword(null);
-      return ResponseEntity.ok(loginUser);
+    if (token != null) {
+      Map<String, String> response = Collections.singletonMap("token", token);
+      return ResponseEntity.ok(response);
     } else {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");
     }

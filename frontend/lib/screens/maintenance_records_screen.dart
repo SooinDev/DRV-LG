@@ -96,7 +96,7 @@ class _MaintenanceRecordsScreenState extends State<MaintenanceRecordsScreen> {
                             Text(
                               DateFormat('yyyy-MM-dd').format(record.maintenanceDate),
                             ),
-                            Text('주행거리: ${record.odoMeter}km'),
+                            Text('주행거리: ${record.odometer}km'),
                             Text('비용: ${record.totalCost}원'),
                             if (record.memo != null && record.memo!.isNotEmpty)
                               Text('메모: ${record.memo}'),

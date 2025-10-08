@@ -1,20 +1,25 @@
 package com.example.drvlg.service.impl;
 
+import com.example.drvlg.config.jwt.JwtTokenProvider;
 import com.example.drvlg.mapper.UserMapper;
 import com.example.drvlg.service.UserService;
 import com.example.drvlg.vo.UserVO;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
   private final UserMapper userMapper;
-  private final BCryptPasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtTokenProvider jwtTokenProvider;
 
-  public UserServiceImpl(UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
+  @Autowired
+  public UserServiceImpl(UserMapper userMapper, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
     this.userMapper = userMapper;
     this.passwordEncoder = passwordEncoder;
+    this.jwtTokenProvider = jwtTokenProvider;
   }
 
   @Override
@@ -25,13 +30,18 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserVO login(UserVO user) {
+  public String login(UserVO user) {
     UserVO storedUser = userMapper.selectUserByEmail(user.getEmail());
 
     if (storedUser != null && passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
-      return storedUser;
+      return jwtTokenProvider.createToken(storedUser.getEmail());
     }
 
     return null;
+  }
+
+  @Override
+  public UserVO getUserByEmail(String email) {
+    return userMapper.selectUserByEmail(email);
   }
 }

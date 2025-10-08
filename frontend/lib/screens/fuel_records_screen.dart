@@ -84,14 +84,23 @@ class _FuelRecordsScreenState extends State<FuelRecordsScreen> {
                       ),
                       child: ListTile(
                         title: Text(
-                          '${record.fuelAmount}L',
+                          '${record.liters}L',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Text(
-                          DateFormat('yyyy-MM-dd').format(record.fuelDate),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              DateFormat('yyyy-MM-dd').format(record.fuelDate),
+                            ),
+                            Text('주행거리: ${record.odoMeter}km'),
+                            Text('총 금액: ${record.totalPrice}원'),
+                            if (record.memo != null && record.memo!.isNotEmpty)
+                              Text('메모: ${record.memo}'),
+                          ],
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,

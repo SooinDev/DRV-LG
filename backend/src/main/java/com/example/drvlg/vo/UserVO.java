@@ -1,17 +1,34 @@
 package com.example.drvlg.vo;
 
-import lombok.Data;
+import java.util.Date;
 
 public class UserVO {
 
-  /** 유저 이메일 (로그인 ID) */
+  /** 사용자 고유 ID */
+  private Long userId;
+
+  /** 사용자 이메일 (로그인 ID) */
   private String email;
 
-  /** 유저 패스워드 */
+  /** 사용자 패스워드 */
   private String password;
 
-  /** 유저 닉네임 */
+  /** 사용자 닉네임 */
   private String nickName;
+
+  /** 사용자 회원가입일 */
+  private Date createdAt;
+
+  /** 사용자 수정일 */
+  private Date updatedAt;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   public String getEmail() {
     return email;
@@ -35,5 +52,21 @@ public class UserVO {
 
   public void setNickName(String nickName) {
     this.nickName = nickName;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }

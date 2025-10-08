@@ -63,5 +63,25 @@
     ORDER BY
       maintenance_date DESC
   </select>
+
+  <select id="selectLatestRecordByItemName" resultType="com.example.drvlg.vo.MaintenanceRecordVO">
+    SELECT
+      record_id,
+      vehicle_id,
+      maintenance_date,
+      odometer,
+      item,
+      total_cost,
+      memo,
+      created_at,
+      updated_at
+    FROM
+      MAINTENANCE_RECORD
+    WHERE
+      vehicle_id = #{vehicleId} AND item = #{itemName}
+    ORDER BY
+      maintenance_date DESC
+      LIMIT 1
+  </select>
 </mapper>
 

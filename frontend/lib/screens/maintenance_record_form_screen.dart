@@ -32,7 +32,7 @@ class _MaintenanceRecordFormScreenState extends State<MaintenanceRecordFormScree
     super.initState();
     if (widget.record != null) {
       _itemController.text = widget.record!.item;
-      _odoMeterController.text = widget.record!.odoMeter.toString();
+      _odoMeterController.text = widget.record!.odometer.toString();
       _totalCostController.text = widget.record!.totalCost.toString();
       _memoController.text = widget.record!.memo ?? '';
       _selectedDate = widget.record!.maintenanceDate;
@@ -72,7 +72,7 @@ class _MaintenanceRecordFormScreenState extends State<MaintenanceRecordFormScree
         maintenanceRecordId: widget.record?.maintenanceRecordId,
         vehicleId: widget.vehicleId,
         maintenanceDate: _selectedDate,
-        odoMeter: int.parse(_odoMeterController.text),
+        odometer: int.parse(_odoMeterController.text),
         item: _itemController.text,
         totalCost: int.parse(_totalCostController.text),
         memo: _memoController.text.isEmpty ? null : _memoController.text,

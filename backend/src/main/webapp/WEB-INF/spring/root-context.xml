@@ -4,8 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-  <!-- Load database properties -->
-  <context:property-placeholder location="classpath:database.properties"/>
+  <context:property-placeholder location="classpath:database.properties" system-properties-mode="ENVIRONMENT"/>
 
   <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
     <property name="driverClassName" value="${db.driverClassName}"/>
@@ -28,6 +27,6 @@
     <property name="basePackage" value="com.example.drvlg.mapper"/>
   </bean>
 
-  <context:component-scan base-package="com.example.drvlg.service"/>
-  <context:component-scan base-package="com.example.drvlg.config"/>
+  <context:component-scan base-package="com.example.drvlg.service, com.example.drvlg.config"/>
+
 </beans>

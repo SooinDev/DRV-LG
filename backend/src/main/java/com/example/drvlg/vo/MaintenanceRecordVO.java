@@ -1,7 +1,5 @@
 package com.example.drvlg.vo;
 
-import lombok.Data;
-
 import java.util.Date;
 
 public class MaintenanceRecordVO {
@@ -16,7 +14,7 @@ public class MaintenanceRecordVO {
   private Date maintenanceDate;
 
   /** 정비 시 주행 기록 */
-  private Integer odoMeter;
+  private Integer odometer;
 
   /** 정비 내역 */
   private String item;
@@ -28,10 +26,10 @@ public class MaintenanceRecordVO {
   private String memo;
 
   /** 정비 기록 생성일자 */
-  private Date createAt;
+  private Date createdAt;
 
   /** 정비 기록 수정일자 */
-  private Date updateAt;
+  private Date updatedAt;
 
   public Long getMaintenanceRecordId() {
     return maintenanceRecordId;
@@ -57,12 +55,12 @@ public class MaintenanceRecordVO {
     this.maintenanceDate = maintenanceDate;
   }
 
-  public Integer getOdoMeter() {
-    return odoMeter;
+  public Integer getOdometer() {
+    return odometer;
   }
 
-  public void setOdoMeter(Integer odoMeter) {
-    this.odoMeter = odoMeter;
+  public void setOdometer(Integer odometer) {
+    this.odometer = odometer;
   }
 
   public String getItem() {
@@ -89,19 +87,19 @@ public class MaintenanceRecordVO {
     this.memo = memo;
   }
 
-  public Date getCreateAt() {
-    return createAt;
+  public Date getCreatedAt() {
+    return createdAt;
   }
 
-  public void setCreateAt(Date createAt) {
-    this.createAt = createAt;
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
   }
 
-  public Date getUpdateAt() {
-    return updateAt;
+  public Date getUpdatedAt() {
+    return updatedAt;
   }
 
-  public void setUpdateAt(Date updateAt) {
-    this.updateAt = updateAt;
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }

@@ -1,6 +1,5 @@
 package com.example.drvlg.vo;
 
-import lombok.Data;
 import java.util.Date;
 
 public class VehicleVO {
@@ -9,7 +8,7 @@ public class VehicleVO {
   private Long vehicleId;
 
   /** 유저 고유 ID */
-  private Long usrId;
+  private Long userId;
 
   /** 차량 번호 */
   private String number;
@@ -43,12 +42,12 @@ public class VehicleVO {
     this.vehicleId = vehicleId;
   }
 
-  public Long getUsrId() {
-    return usrId;
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setUsrId(Long usrId) {
-    this.usrId = usrId;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public String getNumber() {

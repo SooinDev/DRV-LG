@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../services/api_service.dart';
+import '../services/auth_service.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 
@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _apiService = ApiService();
+  final _authService = AuthService();
   bool _isLoading = false;
 
   @override
@@ -31,14 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final user = await _apiService.login(
+      final token = await _apiService.login(
         _emailController.text,
         _passwordController.text,
       );
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('user_email', user.email);
-      await prefs.setString('user_nickname', user.nickName);
+      await _authService.saveToken(token);
+      await _authService.saveUserInfo(
+        _emailController.text,
+        _emailController.text.split('@')[0],
+      );
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -47,8 +50,15 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       if (mounted) {
+        String errorMessage = '로그인에 실패했습니다.';
+        if (e.toString().contains('Exception:')) {
+          errorMessage = e.toString().replaceAll('Exception: ', '');
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
+          SnackBar(
+            content: Text(errorMessage),
+            duration: const Duration(seconds: 3),
+          ),
         );
       }
     } finally {

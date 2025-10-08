@@ -6,5 +6,8 @@ public interface UserService {
 
   void register(UserVO user);
 
-  UserVO login(UserVO user);
+  String login(UserVO user);
+
+  UserVO getUserByEmail(String email);
+
 }

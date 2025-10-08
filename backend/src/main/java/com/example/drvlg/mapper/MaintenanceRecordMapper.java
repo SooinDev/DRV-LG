@@ -15,4 +15,6 @@ public interface MaintenanceRecordMapper {
   MaintenanceRecordVO selectMaintenanceRecordById(Long recordId);
 
   List<MaintenanceRecordVO> selectMaintenanceRecordsByVehicleId(Long vehicleId);
+
+  MaintenanceRecordVO selectLatestRecordByItemName(Long vehicleId, String itemName);
 }

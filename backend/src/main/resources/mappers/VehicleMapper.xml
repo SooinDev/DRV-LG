@@ -27,4 +27,13 @@
     WHERE
       user_id = #{userId}
   </select>
+
+  <select id="selectLatestOdometer" resultType="java.lang.Integer">
+    SELECT MAX(odometer)
+    FROM (
+           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = #{vehicleId}
+           UNION ALL
+           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = #{vehicleId}
+         ) AS combined_odometers
+  </select>
 </mapper>

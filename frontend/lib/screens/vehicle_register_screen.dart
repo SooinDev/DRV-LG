@@ -50,14 +50,28 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('차량이 등록되었습니다')),
+          const SnackBar(
+            content: Text('차량이 등록되었습니다'),
+            duration: Duration(seconds: 2),
+          ),
         );
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
       }
     } catch (e) {
       if (mounted) {
+        String errorMessage = '차량 등록에 실패했습니다.';
+        if (e.toString().contains('Exception:')) {
+          errorMessage = e.toString().replaceAll('Exception: ', '');
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
+          SnackBar(
+            content: Text(errorMessage),
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: '확인',
+              onPressed: () {},
+            ),
+          ),
         );
       }
     } finally {

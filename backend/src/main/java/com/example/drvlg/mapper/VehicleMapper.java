@@ -10,4 +10,6 @@ public interface VehicleMapper {
   void insertVehicle(VehicleVO vehicleVO);
 
   List<VehicleVO> selectVehiclesByUserId(Long userId);
+
+  Integer selectLatestOdometer(Long vehicleId);
 }
