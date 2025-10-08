@@ -16,4 +16,5 @@ public interface FuelRecordMapper {
   FuelRecordVO selectFuelRecordById(Long recordId);
 
   List<FuelRecordVO> selectFuelRecordsByVehicleId(Long vehicleId);
+
 }

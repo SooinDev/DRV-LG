@@ -22,6 +22,12 @@ public class UserVO {
   /** 사용자 수정일 */
   private Date updatedAt;
 
+  /** 사용자 토큰 */
+  private String refreshToken;
+
+  /** 사용자 토큰 만료일 */
+  private Date refreshTokenExpiresAt;
+
   public Long getUserId() {
     return userId;
   }
@@ -68,5 +74,21 @@ public class UserVO {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public String getRefreshToken() {
+    return refreshToken;
+  }
+
+  public void setRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
+
+  public Date getRefreshTokenExpiresAt() {
+    return refreshTokenExpiresAt;
+  }
+
+  public void setRefreshTokenExpiresAt(Date refreshTokenExpiresAt) {
+    this.refreshTokenExpiresAt = refreshTokenExpiresAt;
   }
 }

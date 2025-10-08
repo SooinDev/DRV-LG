@@ -28,6 +28,9 @@ public class VehicleVO {
   /** 차량 최초 등록 시 주행거리 */
   private Integer initOdo;
 
+  /** 현재 주행거리 (최신 기록 기준) */
+  private Integer currentOdometer;
+
   /** 차량 등록일 */
   private Date registerDate;
 
@@ -96,6 +99,14 @@ public class VehicleVO {
 
   public void setInitOdo(Integer initOdo) {
     this.initOdo = initOdo;
+  }
+
+  public Integer getCurrentOdometer() {
+    return currentOdometer;
+  }
+
+  public void setCurrentOdometer(Integer currentOdometer) {
+    this.currentOdometer = currentOdometer;
   }
 
   public Date getRegisterDate() {

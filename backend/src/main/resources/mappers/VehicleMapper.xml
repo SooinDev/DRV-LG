@@ -6,26 +6,35 @@
     INSERT INTO VEHICLE (
       user_id, license_plate, make, model, year, nickname, initial_odometer, created_at, updated_at
     ) VALUES (
-               #{userId}, #{licensePlate}, #{make}, #{model}, #{year}, #{nickname}, #{initialOdometer}, NOW(), NOW()
+               #{userId}, #{number}, #{maker}, #{model}, #{year}, #{nickName}, #{initOdo}, NOW(), NOW()
              )
   </insert>
 
   <select id="selectVehiclesByUserId" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      vehicle_id,
-      user_id,
-      license_plate,
-      make,
-      model,
-      year,
-      nickname,
-      initial_odometer,
-      created_at,
-      updated_at
+      v.vehicle_id AS vehicleId,
+      v.user_id AS userId,
+      v.license_plate AS number,
+      v.make AS maker,
+      v.model,
+      v.year,
+      v.nickname AS nickName,
+      v.initial_odometer AS initOdo,
+      COALESCE(
+        (SELECT MAX(odometer)
+         FROM (
+           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = v.vehicle_id
+           UNION ALL
+           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = v.vehicle_id
+         ) AS combined_odometers),
+        v.initial_odometer
+      ) AS currentOdometer,
+      v.created_at AS registerDate,
+      v.updated_at AS updateDate
     FROM
-      VEHICLE
+      VEHICLE v
     WHERE
-      user_id = #{userId}
+      v.user_id = #{userId}
   </select>
 
   <select id="selectLatestOdometer" resultType="java.lang.Integer">
@@ -39,20 +48,29 @@
 
   <select id="selectVehicleById" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      vehicle_id,
-      user_id,
-      license_plate,
-      make,
-      model,
-      year,
-      nickname,
-      initial_odometer,
-      created_at,
-      updated_at
+      v.vehicle_id AS vehicleId,
+      v.user_id AS userId,
+      v.license_plate AS number,
+      v.make AS maker,
+      v.model,
+      v.year,
+      v.nickname AS nickName,
+      v.initial_odometer AS initOdo,
+      COALESCE(
+        (SELECT MAX(odometer)
+         FROM (
+           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = v.vehicle_id
+           UNION ALL
+           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = v.vehicle_id
+         ) AS combined_odometers),
+        v.initial_odometer
+      ) AS currentOdometer,
+      v.created_at AS registerDate,
+      v.updated_at AS updateDate
     FROM
-      VEHICLE
+      VEHICLE v
     WHERE
-      vehicle_id = #{vehicleId}
+      v.vehicle_id = #{vehicleId}
   </select>
 
   <delete id="deleteVehicle">
@@ -63,12 +81,12 @@
   <update id="updateVehicle">
     UPDATE VEHICLE
     SET
-      license_plate = #{licensePlate},
-      make = #{make},
+      license_plate = #{number},
+      make = #{maker},
       model = #{model},
       year = #{year},
-      nickname = #{nickname},
-      initial_odometer = #{initialOodometer},
+      nickname = #{nickName},
+      initial_odometer = #{initOdo},
       updated_at = NOW()
     WHERE
       vehicle_id = #{vehicleId}

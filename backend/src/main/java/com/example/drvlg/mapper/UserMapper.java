@@ -9,4 +9,6 @@ public interface UserMapper {
   void insertUser(UserVO user);
 
   UserVO selectUserByEmail(String email);
+
+  void updateRefreshToken(UserVO user);
 }

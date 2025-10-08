@@ -23,7 +23,8 @@ public class JwtTokenProvider {
 
   @Value("${jwt.secret}")
   private String secretKey;
-  private final long tokenValidTime = 30 * 60 * 1000L;
+  private final long accessTokenValidTime = 30 * 60 * 1000L; // 30분
+  private final long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L; // 14일
   private Key key;
 
   private final UserDetailsService userDetailsService;
@@ -39,15 +40,31 @@ public class JwtTokenProvider {
     this.key = Keys.hmacShaKeyFor(keyBytes);
   }
 
-  public String createToken(String userEmail) {
+  public String createAccessToken(String userEmail) {
     Claims claims = Jwts.claims().setSubject(userEmail);
     Date now = new Date();
     return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + tokenValidTime))
+            .setExpiration(new Date(now.getTime() + accessTokenValidTime))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
+  }
+
+  public String createRefreshToken(String userEmail) {
+    Claims claims = Jwts.claims().setSubject(userEmail);
+    Date now = new Date();
+    return Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
+  }
+
+  public Date getRefreshTokenExpiryDate() {
+    Date now = new Date();
+    return new Date(now.getTime() + refreshTokenValidTime);
   }
 
   public Authentication getAuthentication(String token) {

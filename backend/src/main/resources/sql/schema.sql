@@ -69,3 +69,7 @@ CREATE TABLE `MAINTENANCE_ITEM` (
                                     PRIMARY KEY (`item_id`),
                                     UNIQUE KEY `UK_item_name` (`item_name`)
 ) COMMENT '정비 항목 마스터 정보';
+
+ALTER TABLE `USER`
+    ADD COLUMN `refresh_token` VARCHAR(255) NULL COMMENT '리프레시 토큰',
+    ADD COLUMN `refresh_token_expires_at` DATETIME NULL COMMENT '리프레시 토큰 만료 시간';

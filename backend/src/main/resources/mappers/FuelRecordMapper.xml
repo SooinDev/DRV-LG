@@ -10,18 +10,55 @@
              )
   </insert>
 
+  <update id="updateFuelRecord">
+    UPDATE FUEL_RECORD
+    SET
+      fuel_date = #{fuelDate},
+      odometer = #{odoMeter},
+      price_per_liter = #{pricePerLiter},
+      liters = #{liters},
+      total_price = #{totalPrice},
+      memo = #{memo},
+      updated_at = NOW()
+    WHERE
+      record_id = #{recordId}
+  </update>
+
+  <delete id="deleteFuelRecord">
+    DELETE FROM FUEL_RECORD
+    WHERE record_id = #{recordId}
+  </delete>
+
+  <select id="selectFuelRecordById" resultType="com.example.drvlg.vo.FuelRecordVO">
+    SELECT
+      record_id AS recordId,
+      vehicle_id AS vehicleId,
+      fuel_date AS fuelDate,
+      odometer AS odoMeter,
+      price_per_liter AS pricePerLiter,
+      liters,
+      total_price AS totalPrice,
+      memo,
+      created_at AS createdAt,
+      updated_at AS updatedAt
+    FROM
+      FUEL_RECORD
+    WHERE
+      record_id = #{recordId}
+  </select>
+
   <select id="selectFuelRecordsByVehicleId" resultType="com.example.drvlg.vo.FuelRecordVO">
     SELECT
-      record_id as recordId,
-      vehicle_id as vehicleId,
-      fuel_date as fuelDate,
-      odometer as odoMeter,
-      price_per_liter as pricePerLiter,
+      record_id AS recordId,
+      vehicle_id AS vehicleId,
+      fuel_date AS fuelDate,
+      odometer AS odoMeter,
+      price_per_liter AS pricePerLiter,
       liters,
-      total_price as totalPrice,
+      total_price AS totalPrice,
       memo,
-      created_at as createdAt,
-      updated_at as updatedAt
+      created_at AS createdAt,
+      updated_at AS updatedAt
     FROM
       FUEL_RECORD
     WHERE
@@ -29,4 +66,5 @@
     ORDER BY
       fuel_date DESC
   </select>
+
 </mapper>
