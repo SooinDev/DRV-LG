@@ -2,19 +2,32 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static const String _tokenKey = 'jwt_token';
+  static const String _refreshTokenKey = 'refresh_token';
   static const String _emailKey = 'user_email';
   static const String _nicknameKey = 'user_nickname';
 
-  // 토큰 저장
+  // 액세스 토큰 저장
   Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, token);
   }
 
-  // 토큰 조회
+  // 액세스 토큰 조회
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_tokenKey);
+  }
+
+  // 리프레시 토큰 저장
+  Future<void> saveRefreshToken(String refreshToken) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_refreshTokenKey, refreshToken);
+  }
+
+  // 리프레시 토큰 조회
+  Future<String?> getRefreshToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_refreshTokenKey);
   }
 
   // 사용자 정보 저장

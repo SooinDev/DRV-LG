@@ -7,6 +7,7 @@ class Vehicle {
   final int year;
   final String? nickName;
   final int initOdo;
+  final int? currentOdometer;
   final DateTime? registerDate;
   final DateTime? updateDate;
 
@@ -19,6 +20,7 @@ class Vehicle {
     required this.year,
     this.nickName,
     required this.initOdo,
+    this.currentOdometer,
     this.registerDate,
     this.updateDate,
   });
@@ -33,6 +35,7 @@ class Vehicle {
       year: json['year'] as int,
       nickName: json['nickName'] as String?,
       initOdo: json['initOdo'] as int,
+      currentOdometer: json['currentOdometer'] as int?,
       registerDate: json['registerDate'] != null
           ? DateTime.fromMillisecondsSinceEpoch(json['registerDate'] as int)
           : null,
@@ -52,6 +55,7 @@ class Vehicle {
       'year': year,
       if (nickName != null) 'nickName': nickName,
       'initOdo': initOdo,
+      if (currentOdometer != null) 'currentOdometer': currentOdometer,
       if (registerDate != null) 'registerDate': registerDate!.toIso8601String(),
       if (updateDate != null) 'updateDate': updateDate!.toIso8601String(),
     };

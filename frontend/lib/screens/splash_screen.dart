@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import '../services/api_service.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 
@@ -16,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
   final _authService = AuthService();
+  final _apiService = ApiService();
 
   @override
   void initState() {
@@ -40,8 +42,33 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _checkAuthAndNavigate() async {
     await Future.delayed(const Duration(milliseconds: 2500));
 
-    final token = await _authService.getToken();
-    final targetScreen = token != null ? const HomeScreen() : const LoginScreen();
+    Widget targetScreen = const LoginScreen();
+
+    // refreshToken이 있으면 자동 로그인 시도
+    final refreshToken = await _authService.getRefreshToken();
+    if (refreshToken != null) {
+      try {
+        // refreshToken으로 새 accessToken 발급
+        final response = await _apiService.refreshAccessToken(refreshToken);
+
+        // 새 토큰 저장
+        await _authService.saveToken(response['accessToken']!);
+        await _authService.saveRefreshToken(response['refreshToken']!);
+
+        // 자동 로그인 성공 - HomeScreen으로 이동
+        targetScreen = const HomeScreen();
+      } catch (e) {
+        // refreshToken이 만료되었거나 유효하지 않음 - 로그아웃 처리
+        await _authService.logout();
+        targetScreen = const LoginScreen();
+      }
+    } else {
+      // refreshToken이 없으면 일반 accessToken 확인
+      final token = await _authService.getToken();
+      if (token != null) {
+        targetScreen = const HomeScreen();
+      }
+    }
 
     if (!mounted) return;
 
