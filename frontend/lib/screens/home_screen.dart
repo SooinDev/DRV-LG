@@ -457,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
+        color: (isDark ? AppTheme.darkCard : AppTheme.lightCard).withOpacity(0.9),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(
           color: isDark
@@ -496,223 +496,223 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 헤더
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: isDark
-                              ? [AppTheme.darkPrimary, AppTheme.darkSecondary]
-                              : [
-                                  AppTheme.lightPrimary,
-                                  AppTheme.lightSecondary
-                                ],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: (isDark
-                                    ? AppTheme.darkPrimary
-                                    : AppTheme.lightPrimary)
-                                .withOpacity(0.4),
-                            blurRadius: 16,
-                            offset: const Offset(0, 8),
-                          ),
-                          BoxShadow(
-                            color: (isDark
-                                    ? AppTheme.darkSecondary
-                                    : AppTheme.lightSecondary)
-                                .withOpacity(0.3),
-                            blurRadius: 24,
-                            offset: const Offset(0, 12),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.directions_car_filled_rounded,
-                        color: isDark ? AppTheme.darkBackground : Colors.white,
-                        size: 32,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      // 헤더
+                      Row(
                         children: [
-                          Text(
-                            vehicle.nickName ?? '${vehicle.maker} ${vehicle.model}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.5,
+                          Container(
+                            padding: const EdgeInsets.all(18),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: isDark
+                                    ? [AppTheme.darkPrimary, AppTheme.darkSecondary]
+                                    : [
+                                        AppTheme.lightPrimary,
+                                        AppTheme.lightSecondary
+                                      ],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: (isDark
+                                          ? AppTheme.darkPrimary
+                                          : AppTheme.lightPrimary)
+                                      .withOpacity(0.4),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 8),
                                 ),
+                                BoxShadow(
+                                  color: (isDark
+                                          ? AppTheme.darkSecondary
+                                          : AppTheme.lightSecondary)
+                                      .withOpacity(0.3),
+                                  blurRadius: 24,
+                                  offset: const Offset(0, 12),
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.directions_car_filled_rounded,
+                              color: isDark ? AppTheme.darkBackground : Colors.white,
+                              size: 32,
+                            ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${vehicle.maker} ${vehicle.model} (${vehicle.year})',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color: isDark
-                                      ? AppTheme.darkTextSecondary
-                                      : AppTheme.lightTextSecondary,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  vehicle.nickName ?? '${vehicle.maker} ${vehicle.model}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -0.5,
+                                      ),
                                 ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${vehicle.maker} ${vehicle.model} (${vehicle.year})',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                        color: isDark
+                                            ? AppTheme.darkTextSecondary
+                                            : AppTheme.lightTextSecondary,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? Colors.white.withOpacity(0.05)
+                                  : Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.more_vert_rounded,
+                                color: isDark
+                                    ? AppTheme.darkTextSecondary
+                                    : AppTheme.lightTextSecondary,
+                              ),
+                              onPressed: () {
+                                if (vehicle.vehicleId != null) {
+                                  _showVehicleOptions(vehicle, isDark);
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? Colors.white.withOpacity(0.05)
-                            : Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.more_vert_rounded,
-                          color: isDark
-                              ? AppTheme.darkTextSecondary
-                              : AppTheme.lightTextSecondary,
-                        ),
-                        onPressed: () {
-                          if (vehicle.vehicleId != null) {
-                            _showVehicleOptions(vehicle, isDark);
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                // 정보 카드
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? AppTheme.darkBackground.withOpacity(0.5)
-                        : AppTheme.lightBackground,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: isDark
-                          ? Colors.white.withOpacity(0.05)
-                          : Colors.grey.shade200,
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.confirmation_number_rounded,
-                        size: 20,
-                        color: isDark
-                            ? AppTheme.darkTextSecondary
-                            : AppTheme.lightTextSecondary,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        vehicle.number,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1,
+                      // 정보 카드
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? AppTheme.darkBackground.withOpacity(0.5)
+                              : AppTheme.lightBackground,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: isDark
+                                ? Colors.white.withOpacity(0.05)
+                                : Colors.grey.shade200,
+                            width: 1,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.confirmation_number_rounded,
+                              size: 20,
+                              color: isDark
+                                  ? AppTheme.darkTextSecondary
+                                  : AppTheme.lightTextSecondary,
                             ),
-                      ),
-                      const Spacer(),
-                      Icon(
-                        Icons.speed_rounded,
-                        size: 20,
-                        color: isDark
-                            ? AppTheme.darkTextSecondary
-                            : AppTheme.lightTextSecondary,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        '${vehicle.currentOdometer ?? vehicle.initOdo} km',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.primary,
+                            const SizedBox(width: 12),
+                            Text(
+                              vehicle.number,
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 1,
+                                  ),
                             ),
+                            const Spacer(),
+                            Icon(
+                              Icons.speed_rounded,
+                              size: 20,
+                              color: isDark
+                                  ? AppTheme.darkTextSecondary
+                                  : AppTheme.lightTextSecondary,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              '${vehicle.currentOdometer ?? vehicle.initOdo} km',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // 액션 버튼들
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildActionButton(
+                              icon: Icons.local_gas_station_rounded,
+                              label: '주유',
+                              color: isDark
+                                  ? AppTheme.darkAccent
+                                  : AppTheme.lightAccent,
+                              isDark: isDark,
+                              onTap: () {
+                                if (vehicle.vehicleId != null) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          FuelRecordsScreen(vehicleId: vehicle.vehicleId!),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _buildActionButton(
+                              icon: Icons.build_rounded,
+                              label: '정비',
+                              color: isDark
+                                  ? AppTheme.darkWarning
+                                  : AppTheme.lightWarning,
+                              isDark: isDark,
+                              onTap: () {
+                                if (vehicle.vehicleId != null) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MaintenanceRecordsScreen(
+                                          vehicleId: vehicle.vehicleId!),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _buildActionButton(
+                              icon: Icons.notifications_rounded,
+                              label: '알림',
+                              color: isDark
+                                  ? AppTheme.darkSuccess
+                                  : AppTheme.lightSuccess,
+                              isDark: isDark,
+                              onTap: () {
+                                if (vehicle.vehicleId != null) {
+                                  _showAlerts(vehicle.vehicleId!, isDark);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-
-                // 액션 버튼들
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildActionButton(
-                        icon: Icons.local_gas_station_rounded,
-                        label: '주유',
-                        color: isDark
-                            ? AppTheme.darkAccent
-                            : AppTheme.lightAccent,
-                        isDark: isDark,
-                        onTap: () {
-                          if (vehicle.vehicleId != null) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    FuelRecordsScreen(vehicleId: vehicle.vehicleId!),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildActionButton(
-                        icon: Icons.build_rounded,
-                        label: '정비',
-                        color: isDark
-                            ? AppTheme.darkWarning
-                            : AppTheme.lightWarning,
-                        isDark: isDark,
-                        onTap: () {
-                          if (vehicle.vehicleId != null) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => MaintenanceRecordsScreen(
-                                    vehicleId: vehicle.vehicleId!),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildActionButton(
-                        icon: Icons.notifications_rounded,
-                        label: '알림',
-                        color: isDark
-                            ? AppTheme.darkSuccess
-                            : AppTheme.lightSuccess,
-                        isDark: isDark,
-                        onTap: () {
-                          if (vehicle.vehicleId != null) {
-                            _showAlerts(vehicle.vehicleId!, isDark);
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 

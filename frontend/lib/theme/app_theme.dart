@@ -608,24 +608,24 @@ class AppTheme {
     ];
   }
 
-  // 프리미엄 글래스모피즘 효과
+  // iOS 스타일 글래스모피즘 효과
   static BoxDecoration glassCard({bool isDark = false}) {
     return BoxDecoration(
       color: isDark
-          ? darkCard.withOpacity(0.8)
-          : lightCard.withOpacity(0.9),
-      borderRadius: BorderRadius.circular(32),
+          ? darkCard.withOpacity(0.7)
+          : lightCard.withOpacity(0.7),
+      borderRadius: BorderRadius.circular(24),
       border: Border.all(
         color: isDark
-            ? Colors.white.withOpacity(0.1)
-            : Colors.white.withOpacity(0.6),
-        width: 2,
+            ? Colors.white.withOpacity(0.15)
+            : Colors.white.withOpacity(0.7),
+        width: 1.5,
       ),
       boxShadow: [
         BoxShadow(
-          color: (isDark ? Colors.black : Colors.grey).withOpacity(isDark ? 0.3 : 0.12),
-          blurRadius: 32,
-          offset: const Offset(0, 16),
+          color: (isDark ? Colors.black : Colors.grey.shade300).withOpacity(isDark ? 0.5 : 0.2),
+          blurRadius: 20,
+          offset: const Offset(0, 10),
           spreadRadius: 0,
         ),
       ],
@@ -685,7 +685,7 @@ class AppTheme {
     );
   }
 
-  // 그라데이션 배경
+  // iOS 스타일 그라데이션 배경
   static BoxDecoration gradientBackground({bool isDark = false}) {
     return BoxDecoration(
       gradient: LinearGradient(
@@ -695,10 +695,12 @@ class AppTheme {
             ? [
                 const Color(0xFF1E293B),
                 const Color(0xFF0F172A),
+                const Color(0xFF1E1B4B), // Indigo tint
               ]
             : [
                 const Color(0xFFF8FAFC),
                 const Color(0xFFEFF6FF),
+                const Color(0xFFF5F3FF), // Purple tint
               ],
       ),
     );
