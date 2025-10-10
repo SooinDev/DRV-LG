@@ -6,67 +6,49 @@
     INSERT INTO VEHICLE (
       user_id, license_plate, make, model, year, nickname, initial_odometer, created_at, updated_at
     ) VALUES (
-               #{userId}, #{number}, #{maker}, #{model}, #{year}, #{nickName}, #{initOdo}, NOW(), NOW()
+               #{userId}, #{licensePlate}, #{make}, #{model}, #{year}, #{nickName}, #{initialOdometer}, NOW(), NOW()
              )
   </insert>
 
   <select id="selectVehiclesByUserId" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      v.vehicle_id AS vehicleId,
-      v.user_id AS userId,
-      v.license_plate AS number,
-      v.make AS maker,
+      v.vehicle_id,
+      v.user_id,
+      v.license_plate,
+      v.make,
       v.model,
       v.year,
-      v.nickname AS nickName,
-      v.initial_odometer AS initOdo,
+      v.nickname,
+      v.initial_odometer,
       COALESCE(
-        (SELECT MAX(odometer)
-         FROM (
-           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = v.vehicle_id
-           UNION ALL
-           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = v.vehicle_id
-         ) AS combined_odometers),
-        v.initial_odometer
+              (SELECT MAX(odometer)
+               FROM (
+                      SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = v.vehicle_id
+                      UNION ALL
+                      SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = v.vehicle_id
+                    ) AS combined_odometers),
+              v.initial_odometer
       ) AS currentOdometer,
-      v.created_at AS registerDate,
-      v.updated_at AS updateDate
+      v.created_at,
+      v.updated_at
     FROM
       VEHICLE v
     WHERE
       v.user_id = #{userId}
   </select>
 
-  <select id="selectLatestOdometer" resultType="java.lang.Integer">
-    SELECT MAX(odometer)
-    FROM (
-           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = #{vehicleId}
-           UNION ALL
-           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = #{vehicleId}
-         ) AS combined_odometers
-  </select>
-
   <select id="selectVehicleById" resultType="com.example.drvlg.vo.VehicleVO">
     SELECT
-      v.vehicle_id AS vehicleId,
-      v.user_id AS userId,
-      v.license_plate AS number,
-      v.make AS maker,
+      v.vehicle_id,
+      v.user_id,
+      v.license_plate,
+      v.make,
       v.model,
       v.year,
-      v.nickname AS nickName,
-      v.initial_odometer AS initOdo,
-      COALESCE(
-        (SELECT MAX(odometer)
-         FROM (
-           SELECT odometer FROM FUEL_RECORD WHERE vehicle_id = v.vehicle_id
-           UNION ALL
-           SELECT odometer FROM MAINTENANCE_RECORD WHERE vehicle_id = v.vehicle_id
-         ) AS combined_odometers),
-        v.initial_odometer
-      ) AS currentOdometer,
-      v.created_at AS registerDate,
-      v.updated_at AS updateDate
+      v.nickname,
+      v.initial_odometer,
+      v.created_at,
+      v.updated_at
     FROM
       VEHICLE v
     WHERE
@@ -81,12 +63,12 @@
   <update id="updateVehicle">
     UPDATE VEHICLE
     SET
-      license_plate = #{number},
-      make = #{maker},
+      license_plate = #{licensePlate},
+      make = #{make},
       model = #{model},
       year = #{year},
       nickname = #{nickName},
-      initial_odometer = #{initOdo},
+      initial_odometer = #{initialOdometer},
       updated_at = NOW()
     WHERE
       vehicle_id = #{vehicleId}

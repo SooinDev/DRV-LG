@@ -4,9 +4,9 @@ import com.example.drvlg.mapper.VehicleMapper;
 import com.example.drvlg.service.VehicleService;
 import com.example.drvlg.vo.VehicleVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Objects;
 

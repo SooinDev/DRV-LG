@@ -1,5 +1,6 @@
 package com.example.drvlg.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class VehicleVO {
@@ -11,10 +12,12 @@ public class VehicleVO {
   private Long userId;
 
   /** 차량 번호 */
-  private String number;
+  @JsonProperty("number")
+  private String licensePlate;
 
   /** 차량 브랜드 */
-  private String maker;
+  @JsonProperty("maker")
+  private String make;
 
   /** 차량 모델 */
   private String model;
@@ -26,16 +29,19 @@ public class VehicleVO {
   private String nickName;
 
   /** 차량 최초 등록 시 주행거리 */
-  private Integer initOdo;
+  @JsonProperty("initOdo")
+  private Integer initialOdometer;
 
   /** 현재 주행거리 (최신 기록 기준) */
   private Integer currentOdometer;
 
   /** 차량 등록일 */
-  private Date registerDate;
+  @JsonProperty("registerDate")
+  private Date createdAt;
 
   /** 차량 수정일 */
-  private Date updateDate;
+  @JsonProperty("updateDate")
+  private Date updatedAt;
 
   public Long getVehicleId() {
     return vehicleId;
@@ -53,20 +59,20 @@ public class VehicleVO {
     this.userId = userId;
   }
 
-  public String getNumber() {
-    return number;
+  public String getLicensePlate() {
+    return licensePlate;
   }
 
-  public void setNumber(String number) {
-    this.number = number;
+  public void setLicensePlate(String licensePlate) {
+    this.licensePlate = licensePlate;
   }
 
-  public String getMaker() {
-    return maker;
+  public String getMake() {
+    return make;
   }
 
-  public void setMaker(String maker) {
-    this.maker = maker;
+  public void setMake(String make) {
+    this.make = make;
   }
 
   public String getModel() {
@@ -93,12 +99,12 @@ public class VehicleVO {
     this.nickName = nickName;
   }
 
-  public Integer getInitOdo() {
-    return initOdo;
+  public Integer getInitialOdometer() {
+    return initialOdometer;
   }
 
-  public void setInitOdo(Integer initOdo) {
-    this.initOdo = initOdo;
+  public void setInitialOdometer(Integer initialOdometer) {
+    this.initialOdometer = initialOdometer;
   }
 
   public Integer getCurrentOdometer() {
@@ -109,19 +115,19 @@ public class VehicleVO {
     this.currentOdometer = currentOdometer;
   }
 
-  public Date getRegisterDate() {
-    return registerDate;
+  public Date getCreatedAt() {
+    return createdAt;
   }
 
-  public void setRegisterDate(Date registerDate) {
-    this.registerDate = registerDate;
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
   }
 
-  public Date getUpdateDate() {
-    return updateDate;
+  public Date getUpdatedAt() {
+    return updatedAt;
   }
 
-  public void setUpdateDate(Date updateDate) {
-    this.updateDate = updateDate;
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }
