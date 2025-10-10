@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ? AppTheme.darkBackground
                                             : Colors.white)
                                         .withOpacity(0.9),
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -258,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     color: isDark
                                         ? AppTheme.darkBackground
                                         : Colors.white,
-                                    fontSize: 32,
+                                    fontSize: 28,
                                     fontWeight: FontWeight.w800,
-                                    letterSpacing: -1,
+                                    letterSpacing: -0.8,
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -455,22 +455,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildPremiumVehicleCard(Vehicle vehicle, bool isDark) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
           color: isDark
               ? Colors.white.withOpacity(0.1)
-              : Colors.grey.shade200,
-          width: 1,
+              : AppTheme.lightBorder,
+          width: 2,
         ),
         boxShadow: [
           BoxShadow(
+            color: (isDark ? Colors.black : Colors.grey.shade300)
+                .withOpacity(isDark ? 0.3 : 0.15),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
             color: (isDark ? Colors.black : AppTheme.lightPrimary)
-                .withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+                .withOpacity(isDark ? 0.2 : 0.08),
+            blurRadius: 48,
+            offset: const Offset(0, 24),
+            spreadRadius: 0,
           ),
         ],
       ),
@@ -492,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(14),
+                      padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -504,22 +512,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   AppTheme.lightSecondary
                                 ],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                             color: (isDark
                                     ? AppTheme.darkPrimary
                                     : AppTheme.lightPrimary)
+                                .withOpacity(0.4),
+                            blurRadius: 16,
+                            offset: const Offset(0, 8),
+                          ),
+                          BoxShadow(
+                            color: (isDark
+                                    ? AppTheme.darkSecondary
+                                    : AppTheme.lightSecondary)
                                 .withOpacity(0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
+                            blurRadius: 24,
+                            offset: const Offset(0, 12),
                           ),
                         ],
                       ),
                       child: Icon(
                         Icons.directions_car_filled_rounded,
                         color: isDark ? AppTheme.darkBackground : Colors.white,
-                        size: 28,
+                        size: 32,
                       ),
                     ),
                     const SizedBox(width: 16),

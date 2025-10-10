@@ -208,20 +208,28 @@ class _LoginScreenState extends State<LoginScreen>
                             color: (isDark
                                     ? AppTheme.darkPrimary
                                     : AppTheme.lightPrimary)
-                                .withOpacity(0.3),
+                                .withOpacity(0.4),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
+                          ),
+                          BoxShadow(
+                            color: (isDark
+                                    ? AppTheme.darkSecondary
+                                    : AppTheme.lightSecondary)
+                                .withOpacity(0.3),
+                            blurRadius: 36,
+                            offset: const Offset(0, 12),
                           ),
                         ],
                       ),
                       child: Icon(
                         Icons.directions_car_rounded,
-                        size: 64,
+                        size: 56,
                         color: isDark ? AppTheme.darkBackground : Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
                   // 타이틀 - Fade 애니메이션
                   FadeTransition(
@@ -231,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen>
                         Text(
                           'DRV-LG',
                           style:
-                              Theme.of(context).textTheme.displayLarge?.copyWith(
+                              Theme.of(context).textTheme.displaySmall?.copyWith(
                                     color: isDark
                                         ? AppTheme.darkTextPrimary
                                         : AppTheme.lightTextPrimary,
@@ -239,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen>
                                     letterSpacing: 2,
                                   ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         Text(
                           '당신의 차량 관리 파트너',
                           style:
@@ -247,14 +255,13 @@ class _LoginScreenState extends State<LoginScreen>
                                     color: isDark
                                         ? AppTheme.darkTextSecondary
                                         : AppTheme.lightTextSecondary,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.5,
+                                    fontWeight: FontWeight.w600,
                                   ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 32),
 
                   // 로그인 폼 - Slide 애니메이션
                   SlideTransition(
@@ -267,19 +274,26 @@ class _LoginScreenState extends State<LoginScreen>
                         decoration: BoxDecoration(
                           color: isDark
                               ? AppTheme.darkCard
-                              : Colors.white.withOpacity(0.95),
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(28),
                           border: Border.all(
                             color: isDark
-                                ? Colors.white.withOpacity(0.08)
-                                : Colors.black.withOpacity(0.05),
-                            width: 1,
+                                ? Colors.white.withOpacity(0.1)
+                                : AppTheme.lightBorder,
+                            width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
+                              color: Colors.black.withOpacity(isDark ? 0.4 : 0.08),
                               blurRadius: 32,
                               offset: const Offset(0, 16),
+                              spreadRadius: 0,
+                            ),
+                            BoxShadow(
+                              color: (isDark ? AppTheme.darkPrimary : AppTheme.lightPrimary).withOpacity(0.1),
+                              blurRadius: 64,
+                              offset: const Offset(0, 32),
+                              spreadRadius: 0,
                             ),
                           ],
                         ),
@@ -293,14 +307,14 @@ class _LoginScreenState extends State<LoginScreen>
                                 '로그인',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headlineMedium
+                                    .headlineSmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.w800,
-                                      letterSpacing: -0.5,
+                                      letterSpacing: -0.3,
                                     ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 6),
                               Text(
                                 '계속하려면 로그인하세요',
                                 style: Theme.of(context)
@@ -313,7 +327,7 @@ class _LoginScreenState extends State<LoginScreen>
                                     ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 28),
 
                               // 이메일 입력
                               TextFormField(
@@ -339,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 16),
 
                               // 비밀번호 입력
                               TextFormField(
@@ -378,7 +392,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 20),
 
                               // 로그인 유지 체크박스
                               Row(
@@ -417,7 +431,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 32),
+                              const SizedBox(height: 24),
 
                               // 로그인 버튼
                               AnimatedContainer(
@@ -437,15 +451,23 @@ class _LoginScreenState extends State<LoginScreen>
                                             AppTheme.lightSecondary
                                           ],
                                   ),
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
                                       color: (isDark
                                               ? AppTheme.darkPrimary
                                               : AppTheme.lightPrimary)
-                                          .withOpacity(0.4),
-                                      blurRadius: 16,
-                                      offset: const Offset(0, 8),
+                                          .withOpacity(0.5),
+                                      blurRadius: 24,
+                                      offset: const Offset(0, 12),
+                                    ),
+                                    BoxShadow(
+                                      color: (isDark
+                                              ? AppTheme.darkSecondary
+                                              : AppTheme.lightSecondary)
+                                          .withOpacity(0.3),
+                                      blurRadius: 40,
+                                      offset: const Offset(0, 20),
                                     ),
                                   ],
                                 ),
@@ -473,9 +495,9 @@ class _LoginScreenState extends State<LoginScreen>
                                           : Text(
                                               '로그인',
                                               style: TextStyle(
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w700,
-                                                letterSpacing: 0.5,
+                                                letterSpacing: 0.3,
                                                 color: isDark
                                                     ? AppTheme.darkBackground
                                                     : Colors.white,
@@ -485,7 +507,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 20),
 
                               // 회원가입 링크
                               Row(
