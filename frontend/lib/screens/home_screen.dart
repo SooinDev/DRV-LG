@@ -488,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           borderRadius: BorderRadius.circular(24),
           onTap: () {
             if (vehicle.vehicleId != null) {
-              _showVehicleOptions(vehicle.vehicleId!, isDark);
+              _showVehicleOptions(vehicle, isDark);
             }
           },
           child: Padding(
@@ -584,7 +584,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         onPressed: () {
                           if (vehicle.vehicleId != null) {
-                            _showVehicleOptions(vehicle.vehicleId!, isDark);
+                            _showVehicleOptions(vehicle, isDark);
                           }
                         },
                       ),
@@ -751,7 +751,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  void _showVehicleOptions(int vehicleId, bool isDark) {
+  void _showVehicleOptions(Vehicle vehicle, bool isDark) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -794,7 +794,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Navigator.pop(context);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => FuelRecordsScreen(vehicleId: vehicleId),
+                    builder: (context) => FuelRecordsScreen(vehicleId: vehicle.vehicleId!),
                   ),
                 );
               },
@@ -819,7 +819,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        MaintenanceRecordsScreen(vehicleId: vehicleId),
+                        MaintenanceRecordsScreen(vehicleId: vehicle.vehicleId!),
                   ),
                 );
               },
@@ -841,10 +841,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               trailing: const Icon(Icons.chevron_right_rounded),
               onTap: () {
                 Navigator.pop(context);
-                _showAlerts(vehicleId, isDark);
+                _showAlerts(vehicle.vehicleId!, isDark);
               },
             ),
             const Divider(height: 32),
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.lightPrimary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Icons.edit_rounded,
+                    color: isDark
+                        ? AppTheme.darkPrimary
+                        : AppTheme.lightPrimary),
+              ),
+              title: const Text('차량 정보 수정',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () async {
+                Navigator.pop(context);
+                final result = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VehicleRegisterScreen(vehicle: vehicle),
+                  ),
+                );
+                if (result == true) {
+                  _loadData();
+                }
+              },
+            ),
             ListTile(
               leading: Container(
                 padding: const EdgeInsets.all(10),
@@ -865,7 +892,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               trailing: const Icon(Icons.chevron_right_rounded),
               onTap: () {
                 Navigator.pop(context);
-                _confirmDeleteVehicle(vehicleId, isDark);
+                _confirmDeleteVehicle(vehicle.vehicleId!, isDark);
               },
             ),
             const SizedBox(height: 8),

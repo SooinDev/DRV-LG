@@ -21,7 +21,7 @@ class AppTheme {
   static const Color lightPink = Color(0xFFEC4899); // Pink 500
   static const Color lightOrange = Color(0xFFF97316); // Orange 500
 
-  // 다크 테마 색상 - 프리미엄 다크 디자인
+  // 다크 테마 색상 - 프리미엄 다크 디자인 (가독성 개선)
   static const Color darkPrimary = Color(0xFF818CF8); // Indigo 400
   static const Color darkSecondary = Color(0xFFC084FC); // Purple 400
   static const Color darkAccent = Color(0xFF22D3EE); // Cyan 400
@@ -30,11 +30,11 @@ class AppTheme {
   static const Color darkError = Color(0xFFF87171); // Red 400
   static const Color darkBackground = Color(0xFF0F172A); // Slate 900
   static const Color darkCard = Color(0xFF1E293B); // Slate 800
-  static const Color darkSurface = Color(0xFF334155); // Slate 700
-  static const Color darkTextPrimary = Color(0xFFF8FAFC); // Slate 50
-  static const Color darkTextSecondary = Color(0xFF94A3B8); // Slate 400
-  static const Color darkBorder = Color(0xFF334155); // Slate 700
-  static const Color darkDivider = Color(0xFF1E293B); // Slate 800
+  static const Color darkSurface = Color(0xFF1E293B); // Slate 800 (입력 필드 배경 개선)
+  static const Color darkTextPrimary = Color(0xFFFAFAFA); // 밝은 흰색 (가독성 개선)
+  static const Color darkTextSecondary = Color(0xFFCBD5E1); // Slate 300 (더 밝게)
+  static const Color darkBorder = Color(0xFF475569); // Slate 600 (더 밝은 테두리)
+  static const Color darkDivider = Color(0xFF334155); // Slate 700
 
   // 추가 액센트 컬러
   static const Color darkInfo = Color(0xFF60A5FA); // Blue 400
@@ -327,7 +327,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: darkBackground,
 
-      // AppBar
+      // AppBar (가독성 개선)
       appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: false,
@@ -337,20 +337,21 @@ class AppTheme {
         iconTheme: IconThemeData(color: darkTextPrimary, size: 24),
         titleTextStyle: TextStyle(
           color: darkTextPrimary,
-          fontSize: 22,
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.5,
+          fontSize: 24,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.8,
+          height: 1.2,
         ),
       ),
 
-      // Card - 다크 모드 글래스 효과
+      // Card - 다크 모드 글래스 효과 (가독성 개선)
       cardTheme: CardThemeData(
         elevation: 0,
         color: darkCard,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
-          side: BorderSide(color: darkBorder, width: 1),
+          side: const BorderSide(color: darkBorder, width: 1),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shadowColor: Colors.black.withOpacity(0.4),
@@ -407,7 +408,7 @@ class AppTheme {
         ),
       ),
 
-      // InputDecoration - 다크 모드 입력 필드
+      // InputDecoration - 다크 모드 입력 필드 (가독성 개선)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: darkSurface,
@@ -442,8 +443,8 @@ class AppTheme {
           fontSize: 15,
           fontWeight: FontWeight.w600,
         ),
-        hintStyle: TextStyle(
-          color: darkTextSecondary.withOpacity(0.5),
+        hintStyle: const TextStyle(
+          color: Color(0xFF94A3B8), // Slate 400 (placeholder는 좀 더 어둡게)
           fontSize: 15,
           fontWeight: FontWeight.w400,
         ),

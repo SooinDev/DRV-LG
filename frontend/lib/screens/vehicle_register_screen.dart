@@ -4,7 +4,9 @@ import '../models/vehicle.dart';
 import '../theme/app_theme.dart';
 
 class VehicleRegisterScreen extends StatefulWidget {
-  const VehicleRegisterScreen({super.key});
+  final Vehicle? vehicle;
+
+  const VehicleRegisterScreen({super.key, this.vehicle});
 
   @override
   State<VehicleRegisterScreen> createState() => _VehicleRegisterScreenState();
@@ -31,6 +33,16 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
       vsync: this,
     );
     _animationController.forward();
+
+    // 수정 모드인 경우 기존 값 설정
+    if (widget.vehicle != null) {
+      _numberController.text = widget.vehicle!.number;
+      _makerController.text = widget.vehicle!.maker;
+      _modelController.text = widget.vehicle!.model;
+      _yearController.text = widget.vehicle!.year.toString();
+      _nickNameController.text = widget.vehicle!.nickName ?? '';
+      _initOdoController.text = widget.vehicle!.initOdo.toString();
+    }
   }
 
   @override
@@ -45,13 +57,14 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
     super.dispose();
   }
 
-  Future<void> _registerVehicle() async {
+  Future<void> _saveVehicle() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     try {
       final vehicle = Vehicle(
+        vehicleId: widget.vehicle?.vehicleId,
         number: _numberController.text,
         maker: _makerController.text,
         model: _modelController.text,
@@ -62,18 +75,25 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
         initOdo: int.parse(_initOdoController.text),
       );
 
-      await _apiService.registerVehicle(vehicle);
+      if (widget.vehicle != null) {
+        // 수정 모드
+        await _apiService.updateVehicle(widget.vehicle!.vehicleId!, vehicle);
+      } else {
+        // 등록 모드
+        await _apiService.registerVehicle(vehicle);
+      }
 
       if (mounted) {
         final isDark = Theme.of(context).brightness == Brightness.dark;
+        final message = widget.vehicle != null ? '차량 정보가 수정되었습니다' : '차량이 등록되었습니다';
         ScaffoldMessenger.of(context).showSnackBar(
-          AppTheme.successSnackBar('차량이 등록되었습니다', isDark: isDark),
+          AppTheme.successSnackBar(message, isDark: isDark),
         );
         Navigator.of(context).pop(true);
       }
     } catch (e) {
       if (mounted) {
-        String errorMessage = '차량 등록에 실패했습니다.';
+        String errorMessage = widget.vehicle != null ? '차량 정보 수정에 실패했습니다.' : '차량 등록에 실패했습니다.';
         if (e.toString().contains('Exception:')) {
           errorMessage = e.toString().replaceAll('Exception: ', '');
         }
@@ -177,7 +197,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    '새 차량 등록',
+                                    widget.vehicle != null ? '차량 정보 수정' : '새 차량 등록',
                                     style: TextStyle(
                                       color:
                                           isDark ? AppTheme.darkBackground : Colors.white,
@@ -191,7 +211,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    '차량 정보를 입력해주세요',
+                                    widget.vehicle != null ? '차량 정보를 수정해주세요' : '차량 정보를 입력해주세요',
                                     style: TextStyle(
                                       color: (isDark
                                               ? AppTheme.darkBackground
@@ -431,7 +451,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: _isLoading ? null : _registerVehicle,
+                              onTap: _isLoading ? null : _saveVehicle,
                               borderRadius: BorderRadius.circular(16),
                               child: Center(
                                 child: _isLoading
@@ -453,7 +473,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                             MainAxisAlignment.center,
                                         children: [
                                           Icon(
-                                            Icons.add_circle_rounded,
+                                            widget.vehicle != null ? Icons.check_circle_rounded : Icons.add_circle_rounded,
                                             color: isDark
                                                 ? AppTheme.darkBackground
                                                 : Colors.white,
@@ -461,7 +481,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            '차량 등록하기',
+                                            widget.vehicle != null ? '수정 완료' : '차량 등록하기',
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,

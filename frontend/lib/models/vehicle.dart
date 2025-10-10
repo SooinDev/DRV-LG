@@ -37,10 +37,14 @@ class Vehicle {
       initOdo: json['initOdo'] as int,
       currentOdometer: json['currentOdometer'] as int?,
       registerDate: json['registerDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['registerDate'] as int)
+          ? (json['registerDate'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['registerDate'] as int)
+              : DateTime.parse(json['registerDate'] as String))
           : null,
       updateDate: json['updateDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(json['updateDate'] as int)
+          ? (json['updateDate'] is int
+              ? DateTime.fromMillisecondsSinceEpoch(json['updateDate'] as int)
+              : DateTime.parse(json['updateDate'] as String))
           : null,
     );
   }
@@ -56,8 +60,7 @@ class Vehicle {
       if (nickName != null) 'nickName': nickName,
       'initOdo': initOdo,
       if (currentOdometer != null) 'currentOdometer': currentOdometer,
-      if (registerDate != null) 'registerDate': registerDate!.toIso8601String(),
-      if (updateDate != null) 'updateDate': updateDate!.toIso8601String(),
+      // registerDate와 updateDate는 서버에서 자동 관리되므로 전송하지 않음
     };
   }
 }
