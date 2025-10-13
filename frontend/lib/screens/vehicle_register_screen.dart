@@ -15,7 +15,9 @@ class VehicleRegisterScreen extends StatefulWidget {
 class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final _numberController = TextEditingController();
+  final _numberPart1Controller = TextEditingController();
+  final _numberPart2Controller = TextEditingController();
+  final _numberPart3Controller = TextEditingController();
   final _makerController = TextEditingController();
   final _modelController = TextEditingController();
   final _yearController = TextEditingController();
@@ -36,7 +38,15 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
 
     // 수정 모드인 경우 기존 값 설정
     if (widget.vehicle != null) {
-      _numberController.text = widget.vehicle!.number;
+      // 차량 번호 파싱 (예: "37더3816" -> "37", "더", "3816")
+      final number = widget.vehicle!.number;
+      final regExp = RegExp(r'^(\d+)([가-힣]+)(\d+)$');
+      final match = regExp.firstMatch(number);
+      if (match != null) {
+        _numberPart1Controller.text = match.group(1) ?? '';
+        _numberPart2Controller.text = match.group(2) ?? '';
+        _numberPart3Controller.text = match.group(3) ?? '';
+      }
       _makerController.text = widget.vehicle!.maker;
       _modelController.text = widget.vehicle!.model;
       _yearController.text = widget.vehicle!.year.toString();
@@ -47,7 +57,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
 
   @override
   void dispose() {
-    _numberController.dispose();
+    _numberPart1Controller.dispose();
+    _numberPart2Controller.dispose();
+    _numberPart3Controller.dispose();
     _makerController.dispose();
     _modelController.dispose();
     _yearController.dispose();
@@ -65,7 +77,8 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
     try {
       final vehicle = Vehicle(
         vehicleId: widget.vehicle?.vehicleId,
-        number: _numberController.text,
+        number:
+            '${_numberPart1Controller.text}${_numberPart2Controller.text}${_numberPart3Controller.text}',
         maker: _makerController.text,
         model: _modelController.text,
         year: int.parse(_yearController.text),
@@ -85,22 +98,26 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
 
       if (mounted) {
         final isDark = Theme.of(context).brightness == Brightness.dark;
-        final message = widget.vehicle != null ? '차량 정보가 수정되었습니다' : '차량이 등록되었습니다';
-        ScaffoldMessenger.of(context).showSnackBar(
-          AppTheme.successSnackBar(message, isDark: isDark),
-        );
+        final message = widget.vehicle != null
+            ? '차량 정보가 수정되었습니다'
+            : '차량이 등록되었습니다';
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(AppTheme.successSnackBar(message, isDark: isDark));
         Navigator.of(context).pop(true);
       }
     } catch (e) {
       if (mounted) {
-        String errorMessage = widget.vehicle != null ? '차량 정보 수정에 실패했습니다.' : '차량 등록에 실패했습니다.';
+        String errorMessage = widget.vehicle != null
+            ? '차량 정보 수정에 실패했습니다.'
+            : '차량 등록에 실패했습니다.';
         if (e.toString().contains('Exception:')) {
           errorMessage = e.toString().replaceAll('Exception: ', '');
         }
         final isDark = Theme.of(context).brightness == Brightness.dark;
-        ScaffoldMessenger.of(context).showSnackBar(
-          AppTheme.errorSnackBar(errorMessage, isDark: isDark),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(AppTheme.errorSnackBar(errorMessage, isDark: isDark));
       }
     } finally {
       if (mounted) {
@@ -114,8 +131,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor:
-          isDark ? AppTheme.darkBackground : AppTheme.lightBackground,
+      backgroundColor: isDark
+          ? AppTheme.darkBackground
+          : AppTheme.lightBackground,
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -135,8 +153,7 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                       : Colors.white.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color:
-                        isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
+                    color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder,
                     width: 1,
                   ),
                 ),
@@ -185,8 +202,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                               ),
                               child: Icon(
                                 Icons.directions_car_filled_rounded,
-                                color:
-                                    isDark ? AppTheme.darkBackground : Colors.white,
+                                color: isDark
+                                    ? AppTheme.darkBackground
+                                    : Colors.white,
                                 size: 24,
                               ),
                             ),
@@ -197,10 +215,13 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    widget.vehicle != null ? '차량 정보 수정' : '새 차량 등록',
+                                    widget.vehicle != null
+                                        ? '차량 정보 수정'
+                                        : '새 차량 등록',
                                     style: TextStyle(
-                                      color:
-                                          isDark ? AppTheme.darkBackground : Colors.white,
+                                      color: isDark
+                                          ? AppTheme.darkBackground
+                                          : Colors.white,
                                       fontSize: 24,
                                       fontWeight: FontWeight.w800,
                                       letterSpacing: -0.8,
@@ -211,12 +232,15 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    widget.vehicle != null ? '차량 정보를 수정해주세요' : '차량 정보를 입력해주세요',
+                                    widget.vehicle != null
+                                        ? '차량 정보를 수정해주세요'
+                                        : '차량 정보를 입력해주세요',
                                     style: TextStyle(
-                                      color: (isDark
-                                              ? AppTheme.darkBackground
-                                              : Colors.white)
-                                          .withOpacity(0.85),
+                                      color:
+                                          (isDark
+                                                  ? AppTheme.darkBackground
+                                                  : Colors.white)
+                                              .withOpacity(0.85),
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       height: 1.2,
@@ -242,13 +266,16 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
             child: FadeTransition(
               opacity: _animationController,
               child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.1),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: _animationController,
-                  curve: Curves.easeOut,
-                )),
+                position:
+                    Tween<Offset>(
+                      begin: const Offset(0, 0.1),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: _animationController,
+                        curve: Curves.easeOut,
+                      ),
+                    ),
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: Form(
@@ -260,22 +287,64 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                         _buildInputCard(
                           icon: Icons.confirmation_number_rounded,
                           label: '차량 번호',
-                          child: TextFormField(
-                            controller: _numberController,
-                            decoration: InputDecoration(
-                              hintText: '예: 12가 3456',
-                              prefixIcon: Icon(
-                                Icons.confirmation_number_rounded,
-                                color: Theme.of(context).colorScheme.primary,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: TextFormField(
+                                  controller: _numberPart1Controller,
+                                  decoration: const InputDecoration(
+                                    hintText: '123',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  textAlign: TextAlign.center,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return '입력';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
-                            ),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return '차량 번호를 입력하세요';
-                              }
-                              return null;
-                            },
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: TextFormField(
+                                  controller: _numberPart2Controller,
+                                  decoration: const InputDecoration(
+                                    hintText: '가',
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  textAlign: TextAlign.center,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return '입력';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 3,
+                                child: TextFormField(
+                                  controller: _numberPart3Controller,
+                                  decoration: const InputDecoration(
+                                    hintText: '1234',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  textAlign: TextAlign.center,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return '입력';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           isDark: isDark,
                         ),
@@ -294,8 +363,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                     hintText: '예: 현대',
                                     prefixIcon: Icon(
                                       Icons.business_rounded,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                   ),
                                   textInputAction: TextInputAction.next,
@@ -320,8 +390,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                     hintText: '예: 소나타',
                                     prefixIcon: Icon(
                                       Icons.drive_eta_rounded,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                   ),
                                   textInputAction: TextInputAction.next,
@@ -352,8 +423,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                     hintText: '예: 2023',
                                     prefixIcon: Icon(
                                       Icons.calendar_today_rounded,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                   ),
                                   keyboardType: TextInputType.number,
@@ -379,8 +451,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                     hintText: '예: 50000',
                                     prefixIcon: Icon(
                                       Icons.speed_rounded,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                     suffixText: 'km',
                                   ),
@@ -430,19 +503,20 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                               colors: isDark
                                   ? [
                                       AppTheme.darkPrimary,
-                                      AppTheme.darkSecondary
+                                      AppTheme.darkSecondary,
                                     ]
                                   : [
                                       AppTheme.lightPrimary,
-                                      AppTheme.lightSecondary
+                                      AppTheme.lightSecondary,
                                     ],
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: (isDark
-                                        ? AppTheme.darkPrimary
-                                        : AppTheme.lightPrimary)
-                                    .withOpacity(0.5),
+                                color:
+                                    (isDark
+                                            ? AppTheme.darkPrimary
+                                            : AppTheme.lightPrimary)
+                                        .withOpacity(0.5),
                                 blurRadius: 20,
                                 offset: const Offset(0, 10),
                               ),
@@ -462,10 +536,10 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                           strokeWidth: 2.5,
                                           valueColor:
                                               AlwaysStoppedAnimation<Color>(
-                                            isDark
-                                                ? AppTheme.darkBackground
-                                                : Colors.white,
-                                          ),
+                                                isDark
+                                                    ? AppTheme.darkBackground
+                                                    : Colors.white,
+                                              ),
                                         ),
                                       )
                                     : Row(
@@ -473,7 +547,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                             MainAxisAlignment.center,
                                         children: [
                                           Icon(
-                                            widget.vehicle != null ? Icons.check_circle_rounded : Icons.add_circle_rounded,
+                                            widget.vehicle != null
+                                                ? Icons.check_circle_rounded
+                                                : Icons.add_circle_rounded,
                                             color: isDark
                                                 ? AppTheme.darkBackground
                                                 : Colors.white,
@@ -481,7 +557,9 @@ class _VehicleRegisterScreenState extends State<VehicleRegisterScreen>
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            widget.vehicle != null ? '수정 완료' : '차량 등록하기',
+                                            widget.vehicle != null
+                                                ? '수정 완료'
+                                                : '차량 등록하기',
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w700,
