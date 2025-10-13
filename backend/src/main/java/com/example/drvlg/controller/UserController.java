@@ -64,7 +64,6 @@ public class UserController {
       UserVO user = userService.getUserByEmail(email);
 
       if (user != null) {
-        // 비밀번호 정보는 제외하고 반환
         user.setPassword(null);
         user.setRefreshToken(null);
         return ResponseEntity.ok(user);

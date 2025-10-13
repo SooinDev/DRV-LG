@@ -43,6 +43,9 @@ public class VehicleVO {
   @JsonProperty("updateDate")
   private Date updatedAt;
 
+  /** 차량 이미지 경로 */
+  private String imageUrl;
+
   public Long getVehicleId() {
     return vehicleId;
   }
@@ -129,5 +132,13 @@ public class VehicleVO {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 }

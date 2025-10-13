@@ -73,3 +73,6 @@ CREATE TABLE `MAINTENANCE_ITEM` (
 ALTER TABLE `USER`
     ADD COLUMN `refresh_token` VARCHAR(255) NULL COMMENT '리프레시 토큰',
     ADD COLUMN `refresh_token_expires_at` DATETIME NULL COMMENT '리프레시 토큰 만료 시간';
+
+ALTER TABLE `VEHICLE`
+    ADD COLUMN `image_url` VARCHAR(255) NULL COMMENT '차량 사진 URL 또는 파일 경로';

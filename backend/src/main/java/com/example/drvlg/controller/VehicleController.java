@@ -1,5 +1,6 @@
 package com.example.drvlg.controller;
 
+import com.example.drvlg.service.FileStorageService;
 import com.example.drvlg.service.UserService;
 import com.example.drvlg.service.VehicleService;
 import com.example.drvlg.vo.UserVO;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,20 +21,28 @@ public class VehicleController {
 
   private final VehicleService vehicleService;
   private final UserService userService;
+  private final FileStorageService fileStorageService;
 
   @Autowired
-  public VehicleController(VehicleService vehicleService, UserService userService) {
+  public VehicleController(VehicleService vehicleService, UserService userService, FileStorageService fileStorageService) {
     this.vehicleService = vehicleService;
     this.userService = userService;
+    this.fileStorageService = fileStorageService;
   }
 
-  @PostMapping
-  public ResponseEntity<String> registerVehicle(@RequestBody VehicleVO vehicle) {
+  @PostMapping(consumes = "multipart/form-data")
+  public ResponseEntity<String> registerVehicle(@RequestPart("vehicle") VehicleVO vehicle,
+                                                @RequestPart(value = "file", required = false) MultipartFile file) {
     try {
+      if (file != null && !file.isEmpty()) {
+        String fileName = fileStorageService.storeFile(file);
+        vehicle.setImageUrl(fileName);
+      }
+
       UserVO currentUser = getCurrentUser();
       vehicle.setUserId(currentUser.getUserId());
-
       vehicleService.registerVehicle(vehicle);
+
       return ResponseEntity.ok("차량 등록이 성공적으로 완료되었습니다.");
     } catch (Exception e) {
       return ResponseEntity.badRequest().body("차량 등록에 실패했습니다: " + e.getMessage());
@@ -46,13 +56,20 @@ public class VehicleController {
     return ResponseEntity.ok(vehicles);
   }
 
-  @PutMapping("/{vehicleId}")
-  public ResponseEntity<String> updateVehicle(@PathVariable Long vehicleId, @RequestBody VehicleVO vehicle) {
+  @PutMapping(value = "/{vehicleId}", consumes = "multipart/form-data")
+  public ResponseEntity<String> updateVehicle(@PathVariable Long vehicleId,
+                                              @RequestPart("vehicle") VehicleVO vehicle,
+                                              @RequestPart(value = "file", required = false) MultipartFile file) {
     try {
+      if (file != null && !file.isEmpty()) {
+        String fileName = fileStorageService.storeFile(file);
+        vehicle.setImageUrl(fileName);
+      }
+
       UserVO currentUser = getCurrentUser();
       vehicle.setVehicleId(vehicleId);
-
       vehicleService.updateVehicle(vehicle, currentUser.getUserId());
+
       return ResponseEntity.ok("차량 정보가 성공적으로 수정되었습니다.");
     } catch (AccessDeniedException e) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
