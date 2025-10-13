@@ -6,9 +6,9 @@
   </settings>
 
   <typeAliases>
-    <typeAlias alias="UserVO" type="com.example.drvlg.vo.UserVO"/>
-    <typeAlias alias="VehicleVO" type="com.example.drvlg.vo.VehicleVO"/>
-    <typeAlias alias="FuelRecordVO" type="com.example.drvlg.vo.FuelRecordVO"/>
-    <typeAlias alias="MaintenanceRecordVO" type="com.example.drvlg.vo.MaintenanceRecordVO"/>
+    <typeAlias alias="UserVO" type="com.example.drvlg.domain.user.vo.UserVO"/>
+    <typeAlias alias="VehicleVO" type="com.example.drvlg.domain.vehicle.vo.VehicleVO"/>
+    <typeAlias alias="FuelRecordVO" type="com.example.drvlg.domain.record.vo.FuelRecordVO"/>
+    <typeAlias alias="MaintenanceRecordVO" type="com.example.drvlg.domain.record.vo.MaintenanceRecordVO"/>
   </typeAliases>
 </configuration>

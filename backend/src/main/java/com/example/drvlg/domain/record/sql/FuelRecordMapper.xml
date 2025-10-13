@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.drvlg.domain.record.mapper.FuelRecordMapper">
+
+  <insert id="insertFuelRecord">
+    INSERT INTO FUEL_RECORD (
+      vehicle_id, fuel_date, odometer, price_per_liter, liters, total_price, memo, created_at, updated_at
+    ) VALUES (
+               #{vehicleId}, #{fuelDate}, #{odoMeter}, #{pricePerLiter}, #{liters}, #{totalPrice}, #{memo}, NOW(), NOW()
+             )
+  </insert>
+
+  <update id="updateFuelRecord">
+    UPDATE FUEL_RECORD
+    SET
+      fuel_date = #{fuelDate},
+      odometer = #{odoMeter},
+      price_per_liter = #{pricePerLiter},
+      liters = #{liters},
+      total_price = #{totalPrice},
+      memo = #{memo},
+      updated_at = NOW()
+    WHERE
+      record_id = #{recordId}
+  </update>
+
+  <delete id="deleteFuelRecord">
+    DELETE FROM FUEL_RECORD
+    WHERE record_id = #{recordId}
+  </delete>
+
+  <select id="selectFuelRecordById" resultType="com.example.drvlg.domain.record.vo.FuelRecordVO">
+    SELECT
+      record_id AS recordId,
+      vehicle_id AS vehicleId,
+      fuel_date AS fuelDate,
+      odometer AS odoMeter,
+      price_per_liter AS pricePerLiter,
+      liters,
+      total_price AS totalPrice,
+      memo,
+      created_at AS createdAt,
+      updated_at AS updatedAt
+    FROM
+      FUEL_RECORD
+    WHERE
+      record_id = #{recordId}
+  </select>
+
+  <select id="selectFuelRecordsByVehicleId" resultType="com.example.drvlg.domain.record.vo.FuelRecordVO">
+    SELECT
+      record_id AS recordId,
+      vehicle_id AS vehicleId,
+      fuel_date AS fuelDate,
+      odometer AS odoMeter,
+      price_per_liter AS pricePerLiter,
+      liters,
+      total_price AS totalPrice,
+      memo,
+      created_at AS createdAt,
+      updated_at AS updatedAt
+    FROM
+      FUEL_RECORD
+    WHERE
+      vehicle_id = #{vehicleId}
+    ORDER BY
+      fuel_date DESC
+  </select>
+
+</mapper>

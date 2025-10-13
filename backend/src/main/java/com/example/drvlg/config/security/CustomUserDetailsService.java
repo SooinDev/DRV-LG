@@ -1,8 +1,7 @@
 package com.example.drvlg.config.security;
 
-import com.example.drvlg.mapper.UserMapper;
-import com.example.drvlg.service.UserService;
-import com.example.drvlg.vo.UserVO;
+import com.example.drvlg.domain.user.mapper.UserMapper;
+import com.example.drvlg.domain.user.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
